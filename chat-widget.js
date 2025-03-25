@@ -469,10 +469,11 @@
       avatar.src = config.branding.avatar || config.branding.logo || "";
 
       // Create message content
+      const rawOutput = Array.isArray(responseData)
+        ? responseData[0]?.output
+        : responseData?.output || "";
       const messageContent = document.createElement("div");
-      messageContent.innerHTML = marked.parse(
-        Array.isArray(data) ? data[0].output : data.output
-      );
+      messageContent.innerHTML = marked.parse(rawOutput || "*[No response]*");
 
       // Append to message
       botMessageDiv.appendChild(avatar);
@@ -522,10 +523,11 @@
       avatar.src = config.branding.avatar || config.branding.logo || "";
 
       // Create message content
+      const rawOutput = Array.isArray(data)
+        ? data[0]?.output
+        : data?.output || "";
       const messageContent = document.createElement("div");
-      messageContent.innerHTML = marked.parse(
-        Array.isArray(data) ? data[0].output : data.output
-      );
+      messageContent.innerHTML = marked.parse(rawOutput || "*[No response]*");
 
       // Append to message
       botMessageDiv.appendChild(avatar);
