@@ -126,8 +126,7 @@
 
   async function sendMessage(message) {
     const chatHistory =
-      JSON.parse(localStorage.getItem(`chat_history_${currentSessionId}`)) ||
-      [];
+      JSON.parse(localStorage.getItem(`chat_history_${currentSessionId}`)) || [];
     textarea.disabled = true;
     sendButton.disabled = true;
 
@@ -165,7 +164,9 @@
       avatarImg.alt = "Bot Avatar";
 
       const textContent = document.createElement("div");
-      textContent.innerHTML = formatPlainText(data.response || "No response");
+      const safeResponse = typeof data.response === "string" ? data.response : "No response";
+      console.log("Bot response:", safeResponse);
+      textContent.innerHTML = formatPlainText(safeResponse);
 
       botDiv.appendChild(avatarImg);
       botDiv.appendChild(textContent);
@@ -173,10 +174,7 @@
       botDiv.scrollIntoView({ behavior: "smooth", block: "start" });
 
       saveChatHistory({ sender: "user", message });
-      saveChatHistory({
-        sender: "bot",
-        message: data.response || "No response",
-      });
+      saveChatHistory({ sender: "bot", message: safeResponse });
 
       textarea.disabled = false;
       sendButton.disabled = false;
@@ -190,13 +188,13 @@
   }
 
   function formatPlainText(text) {
-    // Replace line breaks and bullets for clean display
-    const escaped = text
+    if (!text) return "";
+    return text
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
+      .replace(/•/g, "•")
       .replace(/\n/g, "<br>")
-      .replace(/•/g, "•");
-    return escaped;
+      .replace(/\s{2,}/g, "&nbsp;&nbsp;");
   }
 
   sendButton.addEventListener("click", () => {
@@ -232,8 +230,7 @@
 
   function saveChatHistory(entry) {
     const history =
-      JSON.parse(localStorage.getItem(`chat_history_${currentSessionId}`)) ||
-      [];
+      JSON.parse(localStorage.getItem(`chat_history_${currentSessionId}`)) || [];
     history.push(entry);
     localStorage.setItem(
       `chat_history_${currentSessionId}`,
