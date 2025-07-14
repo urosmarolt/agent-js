@@ -188,14 +188,18 @@
   }
 
   function formatPlainText(text) {
-    if (!text) return "";
-    return text
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/•/g, "•")
-      .replace(/\n/g, "<br>")
-      .replace(/\s{2,}/g, "&nbsp;&nbsp;");
-  }
+  if (!text) return "";
+
+  // Convert Markdown links to HTML anchor tags
+  text = text.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+
+  return text
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/•/g, "•")
+    .replace(/\n/g, "<br>")
+    .replace(/\s{2,}/g, "&nbsp;&nbsp;");
+}
 
   sendButton.addEventListener("click", () => {
     const message = textarea.value.trim();
