@@ -164,9 +164,10 @@
       avatarImg.alt = "Bot Avatar";
 
       const textContent = document.createElement("div");
-      const safeResponse = typeof data.response === "string" ? data.response : "No response";
+      const safeResponse =
+        typeof data.response === "string" ? data.response : "No response";
       console.log("Bot response:", safeResponse);
-      textContent.innerHTML = formatPlainText(safeResponse);
+      textContent.innerHTML = safeResponse; // ← HTML rendered directly
 
       botDiv.appendChild(avatarImg);
       botDiv.appendChild(textContent);
@@ -187,19 +188,16 @@
     }
   }
 
+  // Left intact for potential legacy fallback, not used now
   function formatPlainText(text) {
     if (!text) return "";
-  
-    // Convert Markdown links to real HTML <a> tags
+
     text = text.replace(
       /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
       '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>'
     );
-  
-    // Basic formatting
-    return text
-      .replace(/\n/g, "<br>")
-      .replace(/\s{2,}/g, "&nbsp;&nbsp;");
+
+    return text.replace(/\n/g, "<br>").replace(/\s{2,}/g, "&nbsp;&nbsp;");
   }
 
   sendButton.addEventListener("click", () => {
