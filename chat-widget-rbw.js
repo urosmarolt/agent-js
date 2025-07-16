@@ -163,12 +163,17 @@
       avatarImg.src = config.branding.avatar || config.branding.logo || "";
       avatarImg.alt = "Bot Avatar";
 
+      const botDiv = document.createElement("div");
+      botDiv.className = "chat-message bot";
+      
+      const avatarImg = document.createElement("img");
+      avatarImg.className = "avatar";
+      avatarImg.src = config.branding.avatar || config.branding.logo || "";
+      avatarImg.alt = "Bot Avatar";
+      
       const textContent = document.createElement("div");
-      const safeResponse =
-        typeof data.response === "string" ? data.response : "No response";
-      console.log("Bot response:", safeResponse);
-      textContent.innerHTML = safeResponse; // ← HTML rendered directly
-
+      textContent.innerHTML = data.response; // expects raw HTML, which your BE sends
+      
       botDiv.appendChild(avatarImg);
       botDiv.appendChild(textContent);
       messagesContainer.appendChild(botDiv);
