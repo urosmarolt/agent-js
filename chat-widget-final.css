@@ -452,3 +452,30 @@
 .n8n-chat-widget .chat-messages {
   scroll-behavior: smooth;
 }
+
+/* Ensure HTML tags are rendered properly */
+.message-html {
+  white-space: normal !important;
+  word-break: break-word;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+/* Style anchor tags inside bot responses */
+.message-html a {
+  color: var(--n8n-chat-primary-color);
+  text-decoration: underline;
+}
+
+.message-html p {
+  margin: 0.5em 0;
+}
+
+.message-html ul {
+  padding-left: 1.2em;
+  margin: 0.5em 0;
+}
+
+.message-html li {
+  margin: 0.25em 0;
+}
