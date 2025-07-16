@@ -126,7 +126,8 @@
 
   async function sendMessage(message) {
     const chatHistory =
-      JSON.parse(localStorage.getItem(`chat_history_${currentSessionId}`)) || [];
+      JSON.parse(localStorage.getItem(`chat_history_${currentSessionId}`)) ||
+      [];
     textarea.disabled = true;
     sendButton.disabled = true;
 
@@ -163,17 +164,10 @@
       avatarImg.src = config.branding.avatar || config.branding.logo || "";
       avatarImg.alt = "Bot Avatar";
 
-      const botDiv = document.createElement("div");
-      botDiv.className = "chat-message bot";
-      
-      const avatarImg = document.createElement("img");
-      avatarImg.className = "avatar";
-      avatarImg.src = config.branding.avatar || config.branding.logo || "";
-      avatarImg.alt = "Bot Avatar";
-      
       const textContent = document.createElement("div");
-      textContent.innerHTML = data.response; // expects raw HTML, which your BE sends
-      
+      textContent.className = "message-html"; // IMPORTANT for styling override
+      textContent.innerHTML = data.response; // we trust backend to return clean HTML
+
       botDiv.appendChild(avatarImg);
       botDiv.appendChild(textContent);
       messagesContainer.appendChild(botDiv);
@@ -238,7 +232,8 @@
 
   function saveChatHistory(entry) {
     const history =
-      JSON.parse(localStorage.getItem(`chat_history_${currentSessionId}`)) || [];
+      JSON.parse(localStorage.getItem(`chat_history_${currentSessionId}`)) ||
+      [];
     history.push(entry);
     localStorage.setItem(
       `chat_history_${currentSessionId}`,
